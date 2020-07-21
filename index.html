@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Independent Farms by County - Choropleth</title>
+	<title>Covid Deaths by County - Choropleth</title>
 	<script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
 	<script type="text/javascript" src="https://d3js.org/queue.v1.min.js"></script>
 	<script type="text/javascript" src="https://d3js.org/topojson.v1.min.js"></script> 
@@ -62,7 +62,7 @@
 </style>
 
 <body>
-	<h1>Independent Farms in the USA</h1>
+	<h1>Covid Deaths by County in the USA</h1>
 		 <script type="text/javascript">
 		 var width = 960, height = 600;
 		 var color_domain = [500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000]
@@ -165,7 +165,7 @@
 		 .attr("y", 590)
 		 .text(function(d, i){ return legend_labels[i]; });
 
-		 var legend_title = "Number of independent farms";
+		 var legend_title = "Number of Covid Deaths";
 
 		 svg.append("text")
 		 .attr("x", 10)
