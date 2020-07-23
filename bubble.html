@@ -18,38 +18,38 @@
 	
 
 
-var song = d3.csv("Song1.csv", function(song){
-    console.log(song);
+var data = d3.csv("Song1.csv", function(data){
+    console.log(data);
 });
 
-        data = {
-            "children": [{"Name":"Olives","Count":400},
+        <!-- data = { -->
+            <!-- "children": [{"Name":"Olives","Count":400}, -->
               
-                {"Name":"Mashed Potatoes","Count":2583},
-                {"Name":"Boiled Potatoes","Count":2074},
-                {"Name":"Milk","Count":1894},
-                {"Name":"Chicken Salad","Count":1809},
-                {"Name":"Vanilla Ice Cream","Count":1713},
-                {"Name":"Cocoa","Count":1636},
+                <!-- {"Name":"Mashed Potatoes","Count":2583}, -->
+                <!-- {"Name":"Boiled Potatoes","Count":2074}, -->
+                <!-- {"Name":"Milk","Count":1894}, -->
+                <!-- {"Name":"Chicken Salad","Count":1809}, -->
+                <!-- {"Name":"Vanilla Ice Cream","Count":1713}, -->
+                <!-- {"Name":"Cocoa","Count":1636}, -->
           
-                {"Name":"Lobster Salad","Count":1511},
-                {"Name":"Chocolate","Count":1489},
-                {"Name":"Apple Pie","Count":1487},
-                {"Name":"Orange Juice","Count":1423},
-                {"Name":"American Cheese","Count":1372},
-                {"Name":"Green Peas","Count":1341},
-                {"Name":"Assorted Cakes","Count":1331},
-                {"Name":"French Fried Potatoes","Count":1328},
-                {"Name":"Potato Salad","Count":1306},
-                {"Name":"Baked Potatoes","Count":1293},
-                {"Name":"Roquefort","Count":1273},
-                {"Name":"Stewed Prunes","Count":1268}]
-        };
+                <!-- {"Name":"Lobster Salad","Count":1511}, -->
+                <!-- {"Name":"Chocolate","Count":1489}, -->
+                <!-- {"Name":"Apple Pie","Count":1487}, -->
+                <!-- {"Name":"Orange Juice","Count":1423}, -->
+                <!-- {"Name":"American Cheese","Count":1372}, -->
+                <!-- {"Name":"Green Peas","Count":1341}, -->
+                <!-- {"Name":"Assorted Cakes","Count":1331}, -->
+                <!-- {"Name":"French Fried Potatoes","Count":1328}, -->
+                <!-- {"Name":"Potato Salad","Count":1306}, -->
+                <!-- {"Name":"Baked Potatoes","Count":1293}, -->
+                <!-- {"Name":"Roquefort","Count":1273}, -->
+                <!-- {"Name":"Stewed Prunes","Count":1268}] -->
+        <!-- }; -->
 
         var diameter = 600;
         var color = d3.scaleOrdinal(d3.schemeCategory20);
 
-        var bubble = d3.pack(song)
+        var bubble = d3.pack(data)
             .size([diameter, diameter])
             .padding(1.5);
 
@@ -59,7 +59,7 @@ var song = d3.csv("Song1.csv", function(song){
             .attr("height", diameter)
             .attr("class", "bubble");
 
-        var nodes = d3.hierarchy(song)
+        var nodes = d3.hierarchy(data)
             .sum(function(d) { return +d.Count; });
 
         var node = svg.selectAll(".node")
