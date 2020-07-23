@@ -55,7 +55,7 @@ async function init(){
             .attr("class", "bubble");
 
         var nodes = d3.hierarchy(data)
-            .sum(function(d) { return d.Count; });
+            .sum(function(d) { return +d.Count; });
 
         var node = svg.selectAll(".node")
             .data(bubble(nodes).descendants())
@@ -71,7 +71,7 @@ async function init(){
 
         node.append("title")
             .text(function(d) {
-                return d.Name + ": " + d.Count;
+                return d.Name + ": " + +d.Count;
             });
 
         node.append("circle")
