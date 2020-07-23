@@ -11,6 +11,11 @@
     </style>
 </head>
 <body>
+<div id="option">
+    <input name="updateButton" 
+           type="button" 
+           value="Update" 
+           onclick="updateData()" />
 
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script>
@@ -66,6 +71,49 @@ d3.csv("Song1.csv").then(function(data){
         .style("font-family", "Helvetica Neue, Helvetica, Arial, san-serif")
         .style("font-size", "12px");
 });
+
+// ** Update data section (Called from the onclick)
+function updateData() {
+
+d3.csv("Song2.csv").then(function(data){
+
+
+    //convert numerical values from strings to numbers
+    data = data.map(function(d){ d.value = +d["Count"]; return d; });
+
+    //Sets up a hierarchy of data object
+    var root = d3.hierarchy({children:data})
+      .sum(function(d) { return d.value; })
+      .sort(function(a, b) { return b.value - a.value; });
+
+    //Once we have hierarchal data, run bubble generator
+    bubble(root);
+
+    //setup the chart
+    var bubbles = svg.selectAll(".bubble")
+        .data(root.children)
+        .enter();
+
+    //create the bubbles
+    bubbles.append("circle")
+        .attr("class", "circle")
+        .attr("r", function(d){ return d.r; })
+        .attr("cx", function(d){ return d.x; })
+        .attr("cy", function(d){ return d.y; })
+        .style("fill", function(d) { return color(d.value); });
+
+    //format the text for each bubble
+    bubbles.append("text")
+        .attr("x", function(d){ return d.x; })
+        .attr("y", function(d){ return d.y + 5; })
+        .attr("text-anchor", "middle")
+        .text(function(d){ return d.data["Name"]; })
+        .style("fill","white")
+        .style("font-family", "Helvetica Neue, Helvetica, Arial, san-serif")
+        .style("font-size", "12px");
+});
+}
+
 </script>
 </body>
 </html>
