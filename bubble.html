@@ -5,7 +5,7 @@
 <head>
 	<meta charset="utf-8">
 		<title>D3: A simple packed Bubble Chart</title>
-		<script src='https://d3js.org/d3.v5.min.js'></script>
+		<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
 
 		<style type="text/css">
 			/* No style rules here yet */		
@@ -16,22 +16,22 @@
 	<script type="text/javascript">
 
 	
-		//const data = await d3.csv('Song1.csv');
-		
-		const data =  d3.csv("Song1.csv");
-		
-			  
-		console.log(data);
-        dataset = {
-            "children": [{"Name":"Olives","Count":40319},
-                {"Name":"Tea","Count":4159},
+
+
+d3.csv("Song1.csv", function(song){
+    console.log(song[0]);
+});
+
+        data = {
+            "children": [{"Name":"Olives","Count":400},
+              
                 {"Name":"Mashed Potatoes","Count":2583},
                 {"Name":"Boiled Potatoes","Count":2074},
                 {"Name":"Milk","Count":1894},
                 {"Name":"Chicken Salad","Count":1809},
                 {"Name":"Vanilla Ice Cream","Count":1713},
                 {"Name":"Cocoa","Count":1636},
-                {"Name":"Lettuce Salad","Count":1566},
+          
                 {"Name":"Lobster Salad","Count":1511},
                 {"Name":"Chocolate","Count":1489},
                 {"Name":"Apple Pie","Count":1487},
