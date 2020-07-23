@@ -33,7 +33,7 @@ d3.csv("Song1.csv").then(function(data){
 
 
     //convert numerical values from strings to numbers
-    data = data.map(function(d){ d.value = +d["Amount"]; return d; });
+    data = data.map(function(d){ d.value = +d["Count"]; return d; });
 
     //Sets up a hierarchy of data object
     var root = d3.hierarchy({children:data})
@@ -61,7 +61,7 @@ d3.csv("Song1.csv").then(function(data){
         .attr("x", function(d){ return d.x; })
         .attr("y", function(d){ return d.y + 5; })
         .attr("text-anchor", "middle")
-        .text(function(d){ return d.data["Fruit"]; })
+        .text(function(d){ return d.data["Name"]; })
         .style("fill","white")
         .style("font-family", "Helvetica Neue, Helvetica, Arial, san-serif")
         .style("font-size", "12px");
