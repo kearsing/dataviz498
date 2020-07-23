@@ -11,14 +11,14 @@
 			/* No style rules here yet */		
 		</style>
 </head>
-<body onload='init()'>
+<body>
 
 	<script type="text/javascript">
-async function init(){
+
 	
 		//const data = await d3.csv('Song1.csv');
 		
-		const data = await d3.csv("Song1.csv", function(data){
+		const data =  d3.csv("Song1.csv", function(data){
 			data.forEach(function(d){ d['Name'] = +d['Count']; });   
 			  
 		console.log(data);
@@ -115,7 +115,7 @@ async function init(){
             .style("height", diameter + "px");
 
 
-}
+
 	</script>
 </body>
 </html>
