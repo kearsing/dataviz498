@@ -49,7 +49,7 @@ d3.csv("Song1.csv", function(song){
         var diameter = 600;
         var color = d3.scaleOrdinal(d3.schemeCategory20);
 
-        var bubble = d3.pack(data)
+        var bubble = d3.pack(song)
             .size([diameter, diameter])
             .padding(1.5);
 
@@ -59,7 +59,7 @@ d3.csv("Song1.csv", function(song){
             .attr("height", diameter)
             .attr("class", "bubble");
 
-        var nodes = d3.hierarchy(data)
+        var nodes = d3.hierarchy(song)
             .sum(function(d) { return +d.Count; });
 
         var node = svg.selectAll(".node")
