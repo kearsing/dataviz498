@@ -90,6 +90,7 @@ d3.csv("Song2.csv").then(function(data){
     bubble(root);
 
     //setup the chart
+	var svg = d3.select("body").transition();
     var bubbles = svg.selectAll(".bubble")
         .data(root.children)
         .enter();
