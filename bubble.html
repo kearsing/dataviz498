@@ -20,7 +20,7 @@ async function init(){
 		
 		const data = await d3.csv("Song1.csv", function(data){
 			data.forEach(function(d){ d['Name'] = +d['Count']; });   
-			   });
+			  
 		console.log(data);
         dataset = {
             "children": [{"Name":"Olives","Count":40319},
