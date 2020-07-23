@@ -11,11 +11,12 @@
 			/* No style rules here yet */		
 		</style>
 </head>
-<body>
+<body onload='init()'>
+
 	<script type="text/javascript">
 async function init(){
 	
-		const song1 = await d3.csv('Song1.csv');
+		const data = await d3.csv('Song1.csv');
         dataset = {
             "children": [{"Name":"Olives","Count":40319},
                 {"Name":"Tea","Count":4159},
@@ -43,7 +44,7 @@ async function init(){
         var diameter = 600;
         var color = d3.scaleOrdinal(d3.schemeCategory20);
 
-        var bubble = d3.pack(song1)
+        var bubble = d3.pack(data)
             .size([diameter, diameter])
             .padding(1.5);
 
@@ -53,7 +54,7 @@ async function init(){
             .attr("height", diameter)
             .attr("class", "bubble");
 
-        var nodes = d3.hierarchy(song1)
+        var nodes = d3.hierarchy(data)
             .sum(function(d) { return d.Count; });
 
         var node = svg.selectAll(".node")
