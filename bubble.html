@@ -16,7 +16,11 @@
 	<script type="text/javascript">
 async function init(){
 	
-		const data = await d3.csv('Song1.csv');
+		//const data = await d3.csv('Song1.csv');
+		
+		const data = await d3.csv("Song1.csv", function(data){
+			data.forEach(function(d){ d['Name'] = +d['Count']; });   
+			   });
 		console.log(data);
         dataset = {
             "children": [{"Name":"Olives","Count":40319},
@@ -56,7 +60,7 @@ async function init(){
             .attr("class", "bubble");
 
         var nodes = d3.hierarchy(data)
-            .sum(function(d) { return +d.Count; });
+            .sum(function(d) { return d.Count; });
 
         var node = svg.selectAll(".node")
             .data(bubble(nodes).descendants())
