@@ -103,7 +103,7 @@ var song = d3.csv("Song1.csv", function(song){
             .attr("dy", "1.3em")
             .style("text-anchor", "middle")
             .text(function(d) {
-                return d.data.Count;
+                return +d.data.Count;
             })
             .attr("font-family",  "Gill Sans", "Gill Sans MT")
             .attr("font-size", function(d){
