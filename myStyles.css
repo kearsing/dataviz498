@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Ranchers&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+
+@font-face {
+  font-family: The Beatles;
+  src: url(Beatles_Font.TTF);
+}
+
+@font-face {
+  font-family: Bob Dylan;
+  font-weight: bold;
+  src: url(IndieFlower.ttf);
+  }
+  
+@font-face {
+  font-family: Bruce Springsteen;
+  src: url(Granite.TTF);
+  
+}
+
+@font-face {
+  font-family: EMINEM;
+  src: url('Bank Gothic Medium BT.ttf');
+  
+}
+
+@font-face {
+  font-family: Lin-Manuel Miranda;
+  src: url(Trajan.ttf);
+  
+}
+.bar { fill: steelblue; }
+.tick { fill: black; }
+
+div.tooltip {	
+    position: absolute;			
+    text-align: center;			
+    width: 150px;					
+    height: 45px;					
+    padding: 2px;				
+    font: 20px sans-serif;		
+    background: white;	
+    border: 5px;
+	border-color: black;
+    border-radius: 8px;			
+    pointer-events: none;			
+}
+
+introBold{
+	color: #ad0052;
+    font-weight: bold;
+	font-size: 20px;
+}
+
+introBeatles{
+	color: #ad0052;
+    font-weight: bold;
+	font-size: 20px;
+}
+introDylan{
+	color: #2A9CBE;
+    font-weight: bold;
+	font-size: 20px;
+}
+introBruce{
+	color: #800000;
+    font-weight: bold;
+	font-size: 20px;
+}
+
+introEminem{
+	color: red;
+    font-weight: bold;
+	font-size: 20px;
+}
+
+introMiranda{
+	color: #e5a541;
+    font-weight: bold;
+	font-size: 20px;
+}
+introWeak{
+	color: grey;
+	font-size: 12px;
+}
+.beatlesbutton {
+ 
+  border: none;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.beatlesbutton:focus {
+  background-color: #ad0052;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.brucebutton {
+ 
+  border: none;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.brucebutton:focus {
+  background-color: #800000;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.dylanbutton {
+ 
+  border: none;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.dylanbutton:focus {
+  background-color: #2A9CBE;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.eminembutton {
+  
+  border: none;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.eminembutton:focus {
+  background-color: black;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.mirandabutton {
+  
+  border: none;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.mirandabutton:focus {
+  background-color: #e5a541;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}

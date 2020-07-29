@@ -1,181 +1,255 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="utf-8">
-	<title>Covid Deaths by County - Choropleth</title>
-	<script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
-	<script type="text/javascript" src="https://d3js.org/queue.v1.min.js"></script>
-	<script type="text/javascript" src="https://d3js.org/topojson.v1.min.js"></script> 
+    <meta charset="utf-8">
+    <title>Artist Song Lyrics</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="myStyles.css">
 </head>
-
-<!-- CSS -->
 <style>
- 
-	path {
-	 	stroke:white;
-	 	stroke-width: 1px;
-	}
-	 
-	body {
-	 	font-family: 'Proxima Nova', sans-serif;
-	}
-	 
-	.county {
-	 	font: 14px sans-serif;
-	 	font-weight: bold;
-	}
-	 
-	.legend {
-	 	font-size: 14px;
-	 	font-family: 'Proxima Nova', sans-serif;
-	}
-
-	.legend_title {
-	 	font-size: 14px;
-	 	font-family: 'Proxima Nova', sans-serif;
-	 	font-weight: bold;
-	}
-	 
-	div.tooltip {
-	 	position: absolute;
-	 	left: 75px;
-	 	text-align: center;
-	 	height: 16px;
-	 	padding: 10px;
-	 	font-size: 14px;
-	 	background: #FFFFFF;
-	 	border: 1px solid #989898;
- 		pointer-events: none;
-	}
-
-	p {
-		font-family: 'Proxima Nova', sans-serif;
-		font-size:10px;
-		margin: 20px 0 0 10px;
-	}
-
-	@media (max-width: 400px) {
-    .d3map {
-        display: none;
-    }
-}
 </style>
+<body >
+<div id="chart1">
+    <input 
+			id="updateButton1" 
+			name="updateButton1" 
+           type="button" autofocus
+			class="beatlesbutton"		   
+           value="The Beatles" 
+           onclick="updateData('beatles.csv','The Beatles')" />
+		   
+	<input name="updateButton2" 
+           type="button" 
+		   class="dylanbutton"
+           value="Bob Dylan" 
+           onclick="updateData('dylan.csv', 'Bob Dylan')" />
+		   
+	<input name="updateButton3" 
+           type="button" 
+		   class="brucebutton"
+           value="Bruce Springsteen" 
+           onclick="updateData('bruce1.csv','Bruce Springsteen')" />
+		   
+	<input name="updateButton4" 
+           type="button" 
+		   class="eminembutton"
+           value="Eminem" 
+           onclick="updateData('Data/Eminem.csv','EMINEM')" />
+		   
+	<input name="updateButton5" 
+           type="button" 
+		   class="mirandabutton"
+           value="Lin-Manuel Miranda (Hamilton)" 
+           onclick="updateData('Data/Miranda.csv','Lin-Manuel Miranda')" />
 
-<body>
-	<h1>Covid Deaths by County in the USA</h1>
-		 <script type="text/javascript">
-		 var width = 960, height = 600;
-		 var color_domain = [0,500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500]
-		 var ext_color_domain = [0, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500]
-		 var legend_labels = ["< 500", "500+", "1000+", "1500+", "2000+", "2500+", "3000+", "3500+", "4000+", "4500+", "5000+", "5500+", "6000+"]
-		 var color = d3.scale.threshold()
-		 
-		 .domain(color_domain)
-		 .range(["#dcdcdc", "#d0d6cd", "#bdc9be", "#aabdaf", "#97b0a0", "#84a491", "#719782", "#5e8b73", "#4b7e64", "#387255", "#256546", "#125937", "#004d28"]);
-		 
-			var div = d3.select("body").append("div")
-		 .attr("class", "tooltip")
-		 .style("opacity", 0);
-		 
-		var svg = d3.select("body").append("svg")
-		 .attr("width", width)
-		 .attr("height", height)
-		 .style("margin", "-15px auto");
-		 var path = d3.geo.path()
-		 
-		queue()
-		 .defer(d3.json, "us.json")
-		 .defer(d3.csv, "data.csv")
-		 .await(ready);
-		 
-		function ready(error, us, data) {
-		 var pairRateWithId = {};
-		 var pairNameWithId = {};
+</div>
+<div id = "divIntro"><p>Music is one of humanties ancient ways of telling stories about people, places, and things.  $BAND NAME$ did this with $COUNT OF WORDS$ and $UNIQUE WORDS$.</p> </div>
 
-		//Moves selction to front
-		d3.selection.prototype.moveToFront = function() {
-  			return this.each(function(){
-    		this.parentNode.appendChild(this);
-  			});
-		}; 
+<p><introWeak>Song lyrics from <a href = https://www.kaggle.com/paultimothymooney/poetry>Kaggle Song Lyrics</a>. Common stopwords removed. Analysis done in Python with <a href = https://spacy.io/usage/linguistic-features#named-entities>Spacy NER</a>, Visuals done with <a href=https://d3js.org>D3.js</a>. <br> <a href=https://en.wikipedia.org/wiki/Natural_language_processing>NLP</a> is not a perfect science, hence data is meant to be a close approximation.</introWeak></p>
+<div id="divTitle"><h2 id = "pTitle">Top Words in Songs by the </h2></div>
 
-		//Moves selction to back
-		d3.selection.prototype.moveToBack = function() { 
-    		return this.each(function() { 
-        	var firstChild = this.parentNode.firstChild; 
-        	if (firstChild) { 
-            	this.parentNode.insertBefore(this, firstChild); 
-        	} 
-    		}); 
-		};
 
-		data.forEach(function(d) {
-		 pairRateWithId[d.id] = +d.rate;
-		 pairNameWithId[d.id] = d.name;
-		 });
-		 svg.append("g")
-		 .attr("class", "county")
-		 .selectAll("path")
-		 .data(topojson.feature(us, us.objects.counties).features)
-		 .enter().append("path")
-		 .attr("d", path)
-		 .style ( "fill" , function (d) {
-		 return color (pairRateWithId[d.id]);
-		 })
-		 .style("opacity", 0.8)
-		 .on("mouseover", function(d) {
-		 	var sel = d3.select(this);
-  			sel.moveToFront();
-		 d3.select(this).transition().duration(300).style({'opacity': 1, 'stroke': 'black', 'stroke-width': 1.5});
-		 div.transition().duration(300)
-		 .style("opacity", 1)
-		 div.text(pairNameWithId[d.id] + ": " + pairRateWithId[d.id])
-		 .style("left", (d3.event.pageX) + "px")
-		 .style("top", (d3.event.pageY -30) + "px");
-		 })
-		 .on("mouseout", function() {
-		 	var sel = d3.select(this);
-  			sel.moveToBack();
-		 d3.select(this)
-		 .transition().duration(300)
-		 .style({'opacity': 0.8, 'stroke': 'white', 'stroke-width': 1});
-		 div.transition().duration(300)
-		 .style("opacity", 0);
-		 })
-		 
-		 };
-		 
-		var legend = svg.selectAll("g.legend")
-		 .data(ext_color_domain)
-		 .enter().append("g")
-		 .attr("class", "legend");
-		 
-		var ls_w = 73, ls_h = 20;
-		 
-		legend.append("rect")
-		 .attr("x", function(d, i){ return width - (i*ls_w) - ls_w;})
-		 .attr("y", 550)
-		 .attr("width", ls_w)
-		 .attr("height", ls_h)
-		 .style("fill", function(d, i) { return color(d); })
-		 .style("opacity", 0.8);
-		 
-		legend.append("text")
-		 .attr("x", function(d, i){ return width - (i*ls_w) - ls_w;})
-		 .attr("y", 590)
-		 .text(function(d, i){ return legend_labels[i]; });
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script>
+document.getElementById("updateButton1").click();
 
-		 var legend_title = "Number of Covid Deaths";
+var diameter = 500, //max size of the bubbles
+    format   = d3.format(",d");
 
-		 svg.append("text")
-		 .attr("x", 10)
-		 .attr("y", 540)
-		 .attr("class", "legend_title")
-		 .text(function(){return legend_title});
+var bubble = d3.pack()
+    .size([diameter, diameter])
+    .padding(1.5);
 
-		</script>
+var div = d3.select("body").append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", 0);
 
-<p>Source: U.S. Census</p>		
+// ** Update data section (Called from the onclick)
+function updateData(SongFile, Band) {
+
+var selectedBand = Band;
+
+
+
+
+if (Band == "The Beatles"){
+		var totalWords = 14340
+		var uniqueWords = 2197
+		var approxSongs = 213
+		d3.select("#divIntro").html("<p>Music is an ancient way of telling stories about people, places, and things.  <introBeatles> " + Band + "</introBeatles> did this with <introBeatles> " + totalWords + "</introBeatles> total words and <introBeatles> " + uniqueWords + "</introBeatles> unique words in approximately <introBeatles> " + approxSongs + "</introBeatles> songs. Below you can see their top words, top people, places, and things mentioned in their lyrics.</p>");
+		d3.select("#pTitle").html("Top Words Used in Songs by " + "<span style='color: #ad0052;font-size: 30pt;font-family: The Beatles;'>The Beatles</span>");
+		var color = d3.scaleOrdinal(["#ffa200","#719a2e","#ad0052","#ea2c01","#eac016","#156eb7","#dc317e"]);
+	}
+	else if (Band == "Bob Dylan"){
+		var totalWords = 38203
+		var uniqueWords = 5983
+		var approxSongs = 500
+		d3.select("#divIntro").html("<p>Music is an ancient way of telling stories about people, places, and things.  <introDylan> " + Band + "</introDylan> did this with <introDylan> " + totalWords + "</introDylan> total words and <introDylan> " + uniqueWords + "</introDylan> unique words in approximately <introDylan> " + approxSongs + "</introDylan> songs. Below you can see their top words, top people, places, and things mentioned in their lyrics.</p>");
+		d3.select("#pTitle").html("Top Words Used in Songs by " + "<span style='color: #2A9CBE;font-size: 30pt;font-family: Indie Flower;'>" + Band + "</span>");
+		var color    = d3.scaleOrdinal(["#304377","#3355FF","#3377FF","#3393FF","#33B8FF", "#33DAFF", "#2A9CBE"]);
+	}
+	else if (Band == "Bruce Springsteen"){
+		var totalWords = 21471
+		var uniqueWords = 3217
+		var approxSongs = 327
+		d3.select("#divIntro").html("<p>Music is an ancient way of telling stories about people, places, and things.  <introBruce> " + Band + "</introBruce> did this with <introBruce> " + totalWords + "</introBruce> total words and <introBruce> " + uniqueWords + "</introBruce> unique words in approximately <introBruce> " + approxSongs + "</introBruce> songs. Below you can see their top words, top people, places, and things mentioned in their lyrics.</p>");
+		d3.select("#pTitle").html("Top Words Used in Songs by " + "<span style='color: #800000;font-size: 30pt;font-family: "+ Band +";'>" + Band + "</span>");
+		var color    = d3.scaleOrdinal(["#2b1d0e","#52361b","#4B5320","#AFAA44","#877E3D", "#800000", "#DAA520"]);
+		}
+	else if (Band == "EMINEM"){
+		var totalWords = 64484
+		var uniqueWords = 9125
+		var approxSongs = 330
+		d3.select("#divIntro").html("<p>Music is an ancient way of telling stories about people, places, and things.  <introEminem> " + Band + "</introEminem> did this with <introEminem> " + totalWords + "</introEminem> total words and <introEminem> " + uniqueWords + "</introEminem> unique words in approximately <introEminem> " + approxSongs + "</introEminem> songs. Below you can see their top words, top people, places, and things mentioned in their lyrics.</p>");
+		d3.select("#pTitle").html("Top Words Used in Songs by " + "<span style='color: black;font-size: 30pt;font-family: Helvetica;'>" + Band + "</span>");
+		var color    = d3.scaleOrdinal(["Black","Black","Black","Red","Black", "Black", "Red"]);
+	}
+	else if (Band == "Lin-Manuel Miranda"){
+		var totalWords = 11208
+		var uniqueWords = 1970
+		var approxSongs = 46
+		d3.select("#divIntro").html("<p>Music is an ancient way of telling stories about people, places, and things.  <introMiranda> " + Band + "</introMiranda> did this with <introMiranda> " + totalWords + "</introMiranda> total words and <introMiranda> " + uniqueWords + "</introMiranda> unique words in approximately <introMiranda> " + approxSongs + "</introMiranda> songs. Below you can see their top words, top people, places, and things mentioned in their lyrics.</p>");
+		d3.select("#pTitle").html("Top Words Used in Songs by " + "<span style='color: #e5a541;font-size: 30pt;font-family: "+ Band +";'>" + Band + "</span>");
+		var color    = d3.scaleOrdinal(["#d29337","#070605","#7f4f20","#fad462","#663812", "#d6d4d2", "#e5a541"]);
+	}
+	else {
+	d3.select("#pTitle").html("Top Words Used in Songs by " + "<span style='font-size: 30pt;font-family: Indie Flower;'>" + Band + "</span>");
+	var color    = d3.scaleOrdinal(["#26466D","#506987","#ff453a","#5190ED"]);
+	}
+	
+
+d3.csv(SongFile).then(function(data){
+
+//clear existing charts 
+	d3.selectAll("svg").remove();
+
+//svg for Bubble chart	
+	var svg = d3.select("body")
+    .append("svg")
+	.attr("id","svgBubble")
+    .attr("width", diameter)
+    .attr("height", diameter)
+    .attr("class", "bubble");
+	
+// set the dimensions and margins of the bar graph
+var margin = {top: 20, right: 20, bottom: 60, left: 40},
+    width = 600 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+//svg for the bar graph
+var svg2 = d3.select("body").append("svg")
+	.attr("id","svgBar")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+    //convert numerical values from strings to numbers
+    data = data.map(function(d){ d.value = +d["Count"]; return d; });
+
+    //Sets up a hierarchy of data object
+    var root = d3.hierarchy({children:data})
+      .sum(function(d) { return d.value; })
+      .sort(function(a, b) { return b.value - a.value; });
+
+    //Once we have hierarchal data, run bubble generator
+    bubble(root);
+
+    //setup the bubble chart
+	d3.select("body").transition();
+    var bubbles = svg.selectAll(".bubble")
+        .data(root.children)
+        .enter();
+
+    //create the bubbles
+    bubbles.append("circle")
+		.transition()
+		.duration(750)
+        .attr("class", "circle")
+        .attr("r", function(d){ return d.r; })
+        .attr("cx", function(d){ return d.x; })
+        .attr("cy", function(d){ return d.y; })
+        //.style("fill", function(d) { return color(d.value); });
+		.attr("fill", function(d, i) { return color(i); })
+		
+
+    //format the text for each bubble
+    bubbles.append("text")
+		//.data(data)
+		.transition()
+		.duration(900)
+        .attr("x", function(d){ return d.x; })
+        .attr("y", function(d){ return d.y + 5; })
+        .attr("text-anchor", "middle")
+	    .text(function(d){ return d.data["Name"]; })
+        .style("fill","white")
+        .style("font-family", Band)
+		.style("font-size", "20px");
+		
+// bar chart code		
+
+
+var x = d3.scaleBand()
+  .range([ 0, width ])
+  .domain(data.map(function(d) { return d.Name; }))
+  .padding(0.2);
+svg2.append("g")
+  .attr("transform", "translate(0," + height + ")")
+  .call(d3.axisBottom(x))
+  .selectAll("text")
+    .attr("transform", "translate(-10,0)rotate(-45)")
+	.style("font-size",15)
+    .style("text-anchor", "end");
+
+// Add Y axis
+var y = d3.scaleLinear()
+  .domain([0, d3.max(data, function(d) { return d.value; })])
+  .range([ height, 0]);
+  
+svg2.append("g")
+	.style("font-size",15)
+  .call(d3.axisLeft(y));
+var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+// Bars
+svg2.selectAll("mybar")
+  .data(data)
+  .enter()
+  .append("rect")
+    .attr("x", function(d) { return x(d.Name); })
+    .attr("width", x.bandwidth())
+	.attr("fill", function(d, i) { return color(i); })
+
+    //.attr("fill", color)
+    // no bar at the beginning thus:
+    .attr("height", function(d) { return height - y(0); }) // always equal to 0
+    .attr("y", function(d) { return y(0); })
+		.on("mouseover", function(d) {		
+				div.transition()		
+					.duration(200)		
+					.style("opacity", .9);		
+				div.html("Count of '" + d.Name + "': " +(d.value))	
+					.style("left", (d3.event.pageX) + "px")		
+					.style("top", (d3.event.pageY - 28) + "px");	
+            })					
+        .on("mouseout", function(d) {		
+				div.transition()		
+					.duration(500)		
+					.style("opacity", 0);	
+});
+// Animation
+svg2.selectAll("rect")
+  .transition()
+  .duration(400)
+  .attr("y", function(d) { return y(d.value); })
+  .attr("height", function(d) { return height - y(d.value); })
+  .delay(function(d,i){console.log(i) ; return(i*100)})
+
+
+});
+}
+
+</script>
 </body>
-
 </html>
