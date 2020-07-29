@@ -47,6 +47,7 @@
 <div id = "divIntro"><p>Music is one of humanties ancient ways of telling stories about people, places, and things.  $BAND NAME$ did this with $COUNT OF WORDS$ and $UNIQUE WORDS$.</p> </div>
 
 <p><introWeak>Song lyrics from <a href = https://www.kaggle.com/paultimothymooney/poetry>Kaggle Song Lyrics</a>. Common stopwords removed. Analysis done in Python with <a href = https://spacy.io/usage/linguistic-features#named-entities>Spacy NER</a>, Visuals done with <a href=https://d3js.org>D3.js</a>. <br> <a href=https://en.wikipedia.org/wiki/Natural_language_processing>NLP</a> is not a perfect science, hence data is meant to be a close approximation.</introWeak></p>
+
 <div id="divTitle"><h2 id = "pTitle">Top Words in Songs by the </h2></div>
 
 
@@ -142,6 +143,8 @@ var svg2 = d3.select("body").append("svg")
 	.attr("id","svgBar")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
+	//.attr("viewBox", '0 0 540 420')
+	
   .append("g")
     .attr("transform", 
           "translate(" + margin.left + "," + margin.top + ")");
@@ -186,7 +189,15 @@ var svg2 = d3.select("body").append("svg")
 	    .text(function(d){ return d.data["Name"]; })
         .style("fill","white")
         .style("font-family", Band)
-		.style("font-size", "20px");
+		//.call(fontSize)
+		.style("font-size", function(d) { return (d.r/d.data["Name"].length) + 8 +  "px"; })
+		.attr("fake", d=> console.log(d.r, d.data["Name"].length));
+		
+	function fontSize(d){
+		return d.r/2;
+	
+	}
+
 		
 // bar chart code		
 
