@@ -14,7 +14,7 @@
   
 @font-face {
   font-family: Bruce Springsteen;
-  src: url(Granite.ttf);
+  src: url(Bruce.ttf);
   
 }
 
@@ -63,7 +63,7 @@ introDylan{
 	font-size: 20px;
 }
 introBruce{
-	color: #800000;
+	color: #26466D;
     font-weight: bold;
 	font-size: 20px;
 }
@@ -120,7 +120,7 @@ introWeak{
   cursor: pointer;
 }
 .brucebutton:focus {
-  background-color: #800000;
+  background-color: #26466D;
   border: none;
   color: white;
   padding: 15px 32px;

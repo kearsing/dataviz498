@@ -12,48 +12,98 @@
 <body >
 <div id="chart1">
     <input 
-			id="updateButton1" 
+			id="Beatles" 
 			name="updateButton1" 
            type="button" autofocus
 			class="beatlesbutton"		   
            value="The Beatles" 
-           onclick="updateData('beatles.csv','The Beatles')" />
+           onclick="updateData('Beatles','The Beatles')" />
 		   
 	<input name="updateButton2" 
            type="button" 
 		   class="dylanbutton"
            value="Bob Dylan" 
-           onclick="updateData('dylan.csv', 'Bob Dylan')" />
+		 
+           onclick="updateData('Dylan', 'Bob Dylan')" />
 		   
 	<input name="updateButton3" 
            type="button" 
 		   class="brucebutton"
            value="Bruce Springsteen" 
-           onclick="updateData('bruce1.csv','Bruce Springsteen')" />
+           onclick="updateData('BruceS','Bruce Springsteen')" />
 		   
 	<input name="updateButton4" 
            type="button" 
 		   class="eminembutton"
            value="Eminem" 
-           onclick="updateData('Data/Eminem.csv','EMINEM')" />
+           onclick="updateData('Eminem','EMINEM')" />
 		   
 	<input name="updateButton5" 
+			id="Miranda" 
            type="button" 
 		   class="mirandabutton"
            value="Lin-Manuel Miranda (Hamilton)" 
-           onclick="updateData('Data/Miranda.csv','Lin-Manuel Miranda')" />
+           onclick="updateData('Miranda','Lin-Manuel Miranda')" />
 
 </div>
+<p id = "Band" hidden>Band</p>
+<p id = "Mode" hidden>Mode</p>
+<p id = "shortBand" hidden>shortBand</p>
 <div id = "divIntro"><p>Music is one of humanties ancient ways of telling stories about people, places, and things.  $BAND NAME$ did this with $COUNT OF WORDS$ and $UNIQUE WORDS$.</p> </div>
 
 <p><introWeak>Song lyrics from <a href = https://www.kaggle.com/paultimothymooney/poetry>Kaggle Song Lyrics</a>. Common stopwords removed. Analysis done in Python with <a href = https://spacy.io/usage/linguistic-features#named-entities>Spacy NER</a>, Visuals done with <a href=https://d3js.org>D3.js</a>. <br> <a href=https://en.wikipedia.org/wiki/Natural_language_processing>NLP</a> is not a perfect science, hence data is meant to be a close approximation.</introWeak></p>
-
+<div class="container">
+  <form>
+    <label class="radio-inline">
+      <input type="radio" name="optradio" id="Words" checked onclick="fireUp()" >Words
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="optradio" id = "People" onclick="fireUp()">People
+    </label>
+    <label class="radio-inline">
+      <input type="radio" id="Places" name="optradio" onclick="fireUp()">Places
+    </label>
+	    <label class="radio-inline">
+      <input type="radio" name="optradio" id="Things" onclick="fireUp()">Things
+    </label>
+  </form>
+</div>
 <div id="divTitle"><h2 id = "pTitle">Top Words in Songs by the </h2></div>
-
 
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script>
-document.getElementById("updateButton1").click();
+
+
+
+document.getElementById("Beatles").click();
+
+function fireUp() {
+
+var sB = document.getElementById("shortBand").innerHTML;
+var B = document.getElementById("Band").innerHTML;
+
+updateData(sB,B);
+}
+
+function checkMode() { 
+	
+			if (typeof selectedBand == 'undefined'){
+				selectedBand = "Miranda";
+			}
+			thisBand = document.getElementById("Band").innerHTML;
+            var ele = document.getElementsByName('optradio'); 
+            mode = "";
+            for(i = 0; i < ele.length; i++) { 
+                if(ele[i].checked)
+				mode = ele[i].id;		
+              
+            } 
+			document.getElementById("Mode").innerHTML = mode; 
+			
+			//return mode;
+			
+        } 
+
 
 var diameter = 500, //max size of the bubbles
     format   = d3.format(",d");
@@ -66,10 +116,17 @@ var div = d3.select("body").append("div")
     .attr("class", "tooltip")				
     .style("opacity", 0);
 
-// ** Update data section (Called from the onclick)
-function updateData(SongFile, Band) {
 
-var selectedBand = Band;
+
+// ** Update data section (Called from the onclick)
+function updateData(shortBand, Band) {
+
+document.getElementById("Band").innerHTML = Band; 
+document.getElementById("shortBand").innerHTML = shortBand;
+checkMode();
+thisMode = document.getElementById("Mode").innerHTML;
+SongFile = "Data/" + shortBand + "_" + thisMode + ".csv"
+
 
 
 
@@ -95,8 +152,8 @@ if (Band == "The Beatles"){
 		var uniqueWords = 3217
 		var approxSongs = 327
 		d3.select("#divIntro").html("<p>Music is an ancient way of telling stories about people, places, and things.  <introBruce> " + Band + "</introBruce> did this with <introBruce> " + totalWords + "</introBruce> total words and <introBruce> " + uniqueWords + "</introBruce> unique words in approximately <introBruce> " + approxSongs + "</introBruce> songs. Below you can see their top words, top people, places, and things mentioned in their lyrics.</p>");
-		d3.select("#pTitle").html("Top Words Used in Songs by " + "<span style='color: #800000;font-size: 30pt;font-family: "+ Band +";'>" + Band + "</span>");
-		var color    = d3.scaleOrdinal(["#2b1d0e","#52361b","#4B5320","#AFAA44","#877E3D", "#800000", "#DAA520"]);
+		d3.select("#pTitle").html("Top Words Used in Songs by " + "<span style='color: #26466D;font-size: 30pt;font-family: "+ Band +";'>" + Band + "</span>");
+		var color    = d3.scaleOrdinal(["#26466D","#506987","#ff453a","#5190ED"]);
 		}
 	else if (Band == "EMINEM"){
 		var totalWords = 64484
@@ -116,7 +173,8 @@ if (Band == "The Beatles"){
 	}
 	else {
 	d3.select("#pTitle").html("Top Words Used in Songs by " + "<span style='font-size: 30pt;font-family: Indie Flower;'>" + Band + "</span>");
-	var color    = d3.scaleOrdinal(["#26466D","#506987","#ff453a","#5190ED"]);
+	
+	var color    = d3.scaleOrdinal(["#2b1d0e","#52361b","#4B5320","#AFAA44","#877E3D", "#800000", "#DAA520"]);
 	}
 	
 
@@ -134,7 +192,7 @@ d3.csv(SongFile).then(function(data){
     .attr("class", "bubble");
 	
 // set the dimensions and margins of the bar graph
-var margin = {top: 20, right: 20, bottom: 60, left: 40},
+var margin = {top: 20, right: 20, bottom: 110, left: 60},
     width = 600 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -190,7 +248,7 @@ var svg2 = d3.select("body").append("svg")
         .style("fill","white")
         .style("font-family", Band)
 		//.call(fontSize)
-		.style("font-size", function(d) { return (d.r/d.data["Name"].length) + 8 +  "px"; })
+		.style("font-size", function(d) { return (d.r/d.data["Name"].length) + 5 +  "px"; })
 		.attr("fake", d=> console.log(d.r, d.data["Name"].length));
 		
 	function fontSize(d){
