@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Song Lyric Distribution</title>
+  <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <style type="text/css">
+  svg {
+    font: 15px sans-serif;
+    shape-rendering: crispEdges;
+  }
+
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+  }
+ 
+  path.domain {
+    stroke: none;
+  }
+ 
+  .y .tick line {
+    stroke: #ddd;
+  }
+  
+
+  </style>
+
+</head>
+<body>
+<script type="text/javascript">
+
+// Setup svg using Bostock's margin convention
+
+var margin = {top: 20, right: 200, bottom: 75, left: 60},
+    width = 1500 - margin.left - margin.right,
+    height = 800 - margin.top - margin.bottom;
+
+var svg3 = d3.select("body")
+  .append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+/* Data in strings like it would be if imported from a csv */
+
+var data = [
+{word: "like",  Beatles: "57",  Dylan: "200",  Bruce: "87",  Eminem: "581",  Miranda: "49" },
+{word: "know",  Beatles: "135",  Dylan: "167",  Bruce: "94",  Eminem: "302",  Miranda: "44" },
+{word: "don't",  Beatles: "83",  Dylan: "29",  Bruce: "164",  Eminem: "426",  Miranda: "25" },
+{word: "love",  Beatles: "298",  Dylan: "119",  Bruce: "151",  Eminem: "127",  Miranda: "8" },
+{word: "get",  Beatles: "84",  Dylan: "101",  Bruce: "43",  Eminem: "410",  Miranda: "46" },
+{word: "got",  Beatles: "44",  Dylan: "155",  Bruce: "120",  Eminem: "236",  Miranda: "25" },
+{word: "one",  Beatles: "45",  Dylan: "141",  Bruce: "77",  Eminem: "197",  Miranda: "30" },
+{word: "back",  Beatles: "82",  Dylan: "77",  Bruce: "85",  Eminem: "224",  Miranda: "20" },
+{word: "oh",  Beatles: "82",  Dylan: "121",  Bruce: "89",  Eminem: "153",  Miranda: "23" },
+{word: "go",  Beatles: "42",  Dylan: "99",  Bruce: "54",  Eminem: "229",  Miranda: "11" },
+{word: "say",  Beatles: "96",  Dylan: "103",  Bruce: "45",  Eminem: "163",  Miranda: "25" },
+{word: "ain't",  Beatles: "5",  Dylan: "92",  Bruce: "86",  Eminem: "242",  Miranda: "5" },
+{word: "see",  Beatles: "53",  Dylan: "128",  Bruce: "37",  Eminem: "171",  Miranda: "32" },
+{word: "let",  Beatles: "76",  Dylan: "60",  Bruce: "63",  Eminem: "176",  Miranda: "35" },
+{word: "well",  Beatles: "42",  Dylan: "184",  Bruce: "110",  Eminem: "50",  Miranda: "8" },
+{word: "gonna",  Beatles: "33",  Dylan: "161",  Bruce: "41",  Eminem: "104",  Miranda: "49" },
+{word: "come",  Beatles: "73",  Dylan: "96",  Bruce: "97",  Eminem: "103",  Miranda: "14" },
+{word: "never",  Beatles: "52",  Dylan: "74",  Bruce: "35",  Eminem: "177",  Miranda: "31" },
+{word: "cause",  Beatles: "13",  Dylan: "13",  Bruce: "36",  Eminem: "296",  Miranda: "8" },
+{word: "man",  Beatles: "35",  Dylan: "107",  Bruce: "49",  Eminem: "108",  Miranda: "41" },
+{word: "time",  Beatles: "29",  Dylan: "83",  Bruce: "23",  Eminem: "121",  Miranda: "63" },
+{word: "want",  Beatles: "47",  Dylan: "70",  Bruce: "67",  Eminem: "129",  Miranda: "5" },
+{word: "way",  Beatles: "47",  Dylan: "69",  Bruce: "37",  Eminem: "147",  Miranda: "11" },
+{word: "cant",  Beatles: "42",  Dylan: "78",  Bruce: "32",  Eminem: "138",  Miranda: "7" },
+{word: "make",  Beatles: "28",  Dylan: "63",  Bruce: "32",  Eminem: "156",  Miranda: "16" },
+{word: "take",  Beatles: "23",  Dylan: "44",  Bruce: "38",  Eminem: "136",  Miranda: "40" },
+{word: "yeah",  Beatles: "85",  Dylan: "3",  Bruce: "68",  Eminem: "109",  Miranda: "1" },
+{word: "you're",  Beatles: "29",  Dylan: "17",  Bruce: "42",  Eminem: "153",  Miranda: "23" },
+{word: "think",  Beatles: "25",  Dylan: "52",  Bruce: "14",  Eminem: "165",  Miranda: "5" },
+{word: "baby",  Beatles: "9",  Dylan: "51",  Bruce: "84",  Eminem: "111",  Miranda: "0" },
+{word: "fuck",  Beatles: "0",  Dylan: "0",  Bruce: "0",  Eminem: "248",  Miranda: "0" },
+{word: "night",  Beatles: "20",  Dylan: "55",  Bruce: "122",  Eminem: "49",  Miranda: "1" },
+{word: "little",  Beatles: "36",  Dylan: "36",  Bruce: "72",  Eminem: "97",  Miranda: "2" },
+{word: "shit",  Beatles: "0",  Dylan: "0",  Bruce: "1",  Eminem: "231",  Miranda: "0" },
+{word: "need",  Beatles: "58",  Dylan: "49",  Bruce: "20",  Eminem: "84",  Miranda: "15" },
+{word: "that's",  Beatles: "7",  Dylan: "7",  Bruce: "40",  Eminem: "149",  Miranda: "12" },
+{word: "could",  Beatles: "20",  Dylan: "70",  Bruce: "23",  Eminem: "93",  Miranda: "7" },
+{word: "away",  Beatles: "21",  Dylan: "42",  Bruce: "38",  Eminem: "41",  Miranda: "65" },
+{word: "girl",  Beatles: "43",  Dylan: "20",  Bruce: "49",  Eminem: "91",  Miranda: "2" },
+{word: "shot",  Beatles: "1",  Dylan: "25",  Bruce: "11",  Eminem: "50",  Miranda: "108" },
+{word: "good",  Beatles: "42",  Dylan: "51",  Bruce: "31",  Eminem: "41",  Miranda: "7" },
+{word: "every",  Beatles: "15",  Dylan: "42",  Bruce: "21",  Eminem: "54",  Miranda: "39" },
+{word: "wait",  Beatles: "2",  Dylan: "20",  Bruce: "17",  Eminem: "23",  Miranda: "106" },
+{word: "nah",  Beatles: "162",  Dylan: "0",  Bruce: "0",  Eminem: "4",  Miranda: "0" },
+{word: "new",  Beatles: "7",  Dylan: "41",  Bruce: "7",  Eminem: "55",  Miranda: "49" },
+{word: "home",  Beatles: "40",  Dylan: "24",  Bruce: "29",  Eminem: "33",  Miranda: "7" },
+{word: "tonight",  Beatles: "4",  Dylan: "26",  Bruce: "61",  Eminem: "25",  Miranda: "1" },
+{word: "la",  Beatles: "17",  Dylan: "0",  Bruce: "88",  Eminem: "2",  Miranda: "0" },
+];
+
+// Transpose the data into layers
+var dataset = d3.layout.stack()(["Beatles", "Dylan", "Bruce", "Eminem", "Miranda"].map(function(band) {
+  return data.map(function(d) {
+    return {x: d.word, y: +d[band]};
+  });
+}));
+
+
+// Set x, y and colors
+var x = d3.scale.ordinal()
+  .domain(dataset[0].map(function(d) { return d.x; }))
+  .rangeRoundBands([10, width-10], 0.02);
+
+var y = d3.scale.linear()
+  .domain([0, d3.max(dataset, function(d) {  return d3.max(d, function(d) { return d.y0 + d.y; });  })])
+  .range([height, 0]);
+
+var colors = ["ad0052", "#2A9CBE", "#26466D", "black", "e5a541"];
+
+
+// Define and draw axes
+var yAxis = d3.svg.axis()
+  .scale(y)
+  .orient("left")
+  .ticks(5)
+  .tickSize(-width, 0, 0)
+  .tickFormat( function(d) { return d } );
+
+var xAxis = d3.svg.axis()
+  .scale(x)  
+  .orient("bottom");
+
+svg3.append("g")
+  .attr("class", "y axis")
+  .call(yAxis);
+
+svg3.append("g")
+  .attr("class", "x axis") 
+  .attr("transform", "translate(0," + height + ")")
+  .call(xAxis)
+    .selectAll("text")
+    .attr("transform", "translate(-10,0)rotate(-45)")
+	.style("font-size",15)
+    .style("text-anchor", "end");
+
+
+
+// Create groups for each series, rects for each segment 
+var groups = svg3.selectAll("g.cost")
+  .data(dataset)
+  .enter().append("g")
+  .attr("class", "cost")
+  .style("fill", function(d, i) { return colors[i]; });
+
+var rect = groups.selectAll("rect")
+  .data(function(d) { return d; })
+  .enter()
+  .append("rect")
+  .attr("x", function(d) { return x(d.x); })
+  .attr("y", function(d) { return y(d.y0 + d.y); })
+  .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); })
+  .attr("width", x.rangeBand()-2)
+
+  .on("mouseover", function() { tooltip.style("display", null); })
+  .on("mouseout", function() { tooltip.style("display", "none"); })
+  .on("mousemove", function(d) {
+    var xPosition = d3.mouse(this)[0] - 15;
+    var yPosition = d3.mouse(this)[1] - 25;
+    tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+    tooltip.select("text").text('"' + d.x + '" : ' + d.y + " times");
+  });
+
+
+// Draw legend
+var legend = svg3.selectAll(".legend")
+  .data(colors)
+  .enter().append("g")
+  .attr("class", "legend")
+  .attr("transform", function(d, i) { return "translate(30," + i * 19 + ")"; });
+ 
+legend.append("rect")
+  .attr("x", width - 18)
+  .attr("width", 18)
+  .attr("height", 18)
+  .style("fill", function(d, i) {return colors.slice().reverse()[i];});
+ 
+legend.append("text")
+  .attr("x", width + 5)
+  .attr("y", 9)
+  .attr("dy", ".35em")
+  .style("text-anchor", "start")
+  .text(function(d, i) { 
+    switch (i) {
+      case 0: return "Lin-Manuel Miranda";
+      case 1: return "Eminem";
+      case 2: return "Bruce Springsteen";
+      case 3: return "Bob Dylan";
+	  case 4: return "The Beatles";
+    }
+  });
+
+
+// Prep the tooltip bits, initial display is hidden
+var tooltip = svg3.append("g")
+  .attr("class", "tooltip")
+  .style("display", "none");
+    
+tooltip.append("rect")
+  .attr("width", 200)
+  .attr("height", 35)
+  .attr("fill", "white")
+  .style("opacity", .8);
+
+tooltip.append("text")
+  .attr("x", 15)
+  .attr("dy", "1.2em")
+  .style("text-anchor", "left")
+  .attr("font-size", "20px");
+
+//annotations
+ 
+ //Eminem
+svg3.append("g")
+	.append("line")
+    .style("stroke", "black")  // color 
+    .attr("x1", 25)     
+    .attr("y1", 50)      
+    .attr("x2", 175)     
+    .attr("y2",25)
+	.style("opacity", .2);
+	
+svg3.append("g")
+	.append("line")
+	.style("stroke", "black")  
+    .attr("x1", 115)    
+    .attr("y1", 215)     
+    .attr("x2", 175)     
+    .attr("y2",25)
+	.style("opacity", .2);
+
+svg3.append("text")
+		.attr('font-color', 'grey')
+		.style("font-size",20)
+		.attr("x", 180)
+		.attr("y", 25)
+		.style("opacity", .5)
+		.text("Eminem loved 'like' more than he liked 'love'.");
+
+//Beatles and Bruce
+svg3.append("g")
+	.append("line")
+    .style("stroke", "black")  
+    .attr("x1", 1200)     
+    .attr("y1", 630)      
+    .attr("x2", 1100)     
+    .attr("y2",200)
+	.style("opacity", .2);
+	
+svg3.append("g")
+	.append("line")
+	.style("stroke", "black")  
+    .attr("x1", 1100)     
+    .attr("y1", 600)      
+    .attr("x2", 1100)    
+    .attr("y2",200)
+	.style("opacity", .2);
+
+svg3.append("text")
+		.attr('font-color', 'grey')
+		.style("font-size",20)
+		.attr("x", 700)
+		.attr("y", 200)
+		.style("opacity", .5)
+		.text("All the Beatles 'nah's came from 'Hey Jude';");
+svg3.append("text")
+		.attr('font-color', 'grey')
+		.style("font-size",20)
+		.attr("x", 613)
+		.attr("y", 220)
+		.style("opacity", .5)
+		.text("all of Bruce Springsteens 'la's came from 'Jersey Girl'.");
+		
+//S and F
+svg3.append("g")
+	.append("line")
+    .style("stroke", "black")  
+    .attr("x1", 850)     
+    .attr("y1", 540)      
+    .attr("x2", 800)     
+    .attr("y2",380)
+	.style("opacity", .2);
+	
+svg3.append("g")
+	.append("line")
+	.style("stroke", "black")  
+    .attr("x1", 775)     
+    .attr("y1", 540)      
+    .attr("x2", 800)    
+    .attr("y2",380)
+	.style("opacity", .2);
+
+svg3.append("text")
+		.attr('font-color', 'grey')
+		.style("font-size",20)
+		.attr("x", 580)
+		.attr("y", 370)
+		.style("opacity", .5)
+		.text("Eminem's the only one to give an 'F', or an 'S'.");
+
+
+
+
+</script>
+</body>
+</html>
