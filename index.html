@@ -120,7 +120,7 @@ function checkMode() {
         } 
 
 
-var diameter = 500, //max size of the bubbles
+var diameter = 600, //max size of the bubbles
     format   = d3v5.format(",d");
 
 var bubble = d3v5.pack()
@@ -204,7 +204,7 @@ d3v5.csv(SongFile).then(function(data){
 	d3v5.selectAll("svg").remove();
 
 //svg for Bubble chart	
-	var svg = d3v5.select("body")
+var svg = d3v5.select("body")
     .append("svg")
 	.attr("id","svgBubble")
     .attr("width", diameter)
