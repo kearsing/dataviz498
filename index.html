@@ -268,7 +268,7 @@ var svg2 = d3v5.select("body").append("svg")
         .style("fill","white")
         .style("font-family", Band)
 		//.call(fontSize)
-		.style("font-size", function(d) { return (d.r/d.data["Name"].length) + 5 +  "px"; })
+		.style("font-size", function(d) { return (d.r/d.data["Name"].length) + 6 +  "px"; })
 		.attr("fake", d=> console.log(d.r, d.data["Name"].length));
 		
 	function fontSize(d){
